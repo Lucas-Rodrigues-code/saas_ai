@@ -32,19 +32,19 @@ const routes = [
     color: "text-violet-500",
   },
   {
-    label: "Geração de Imagens",
+    label: "Geração de Imagem",
     icon: ImageIcon,
     href: "/image",
     color: "text-pink-700",
   },
   {
-    label: "Geração de Vídeos",
+    label: "Geração de Vídeo",
     icon: VideoIcon,
     href: "/video",
     color: "text-orange-700",
   },
   {
-    label: "Geração de Músicas",
+    label: "Geração de Música",
     icon: Music,
     href: "/music",
     color: "text-emerald-500",
