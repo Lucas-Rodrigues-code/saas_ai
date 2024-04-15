@@ -47,7 +47,7 @@ export default function Conversation() {
       const response = await axios.post("/api/conversation", {
         messages: newMessages,
       });
-      console.log(response.data.message);
+      
       setMessages((current) => [...current, userMessage, response.data.message]);
       form.reset();
     } catch (error: any) {
