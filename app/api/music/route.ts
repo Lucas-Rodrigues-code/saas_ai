@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { increaseApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 import Replicate from "replicate";
 
@@ -19,21 +20,23 @@ export async function POST(req: Request) {
     if (!prompt) {
       return new NextResponse("prompt is required", { status: 500 });
     }
-  
+
+    const freeTrial = await checkApiLimit();
+
+    if (!freeTrial) {
+      return new NextResponse("Free trial as expired", { status: 403 });
+    }
 
     const response = await await replicate.run(
       "riffusion/riffusion:8cf61ea6c56afd61d8f5b9ffd14d7c216c0a93844ce2d82ac1c9ecc9c7f24e05",
       {
         input: {
-       //   alpha: 0.5,
           prompt_a: prompt,
-        //  prompt_b: "90's rap",
-       //   denoising: 0.75,
-        //  seed_image_id: "vibes",
-        //  num_inference_steps: 50
-        }
+        },
       }
     );
+
+    await increaseApiLimit();
 
     return NextResponse.json(response);
   } catch (e) {

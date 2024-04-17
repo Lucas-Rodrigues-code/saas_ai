@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { increaseApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 import Replicate from "replicate";
 
@@ -30,10 +31,18 @@ export async function POST(req: Request) {
         "very blue, dust, noisy, washed out, ugly, distorted, broken",
     };
 
+    const freeTrial = await checkApiLimit();
+
+    if (!freeTrial) {
+      return new NextResponse("Free trial as expired", { status: 403 });
+    }
+
     const response = await replicate.run(
       "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
       { input }
     );
+
+    await increaseApiLimit();
 
     return NextResponse.json(response);
   } catch (e) {
