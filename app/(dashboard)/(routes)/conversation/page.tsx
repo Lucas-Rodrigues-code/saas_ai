@@ -6,7 +6,10 @@ import { MessageCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { ChatCompletionAssistantMessageParam, ChatCompletionUserMessageParam } from "openai/resources/index.mjs";
+import {
+  ChatCompletionAssistantMessageParam,
+  ChatCompletionUserMessageParam,
+} from "openai/resources/index.mjs";
 import { useState } from "react";
 
 import { Heading } from "@/components/heading";
@@ -19,8 +22,10 @@ import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 export default function Conversation() {
+  const { onOpen } = useProModal();
   const router = useRouter();
 
   const [messages, setMessages] = useState<
@@ -47,11 +52,17 @@ export default function Conversation() {
       const response = await axios.post("/api/conversation", {
         messages: newMessages,
       });
-      
-      setMessages((current) => [...current, userMessage, response.data.message]);
+
+      setMessages((current) => [
+        ...current,
+        userMessage,
+        response.data.message,
+      ]);
       form.reset();
     } catch (error: any) {
-      console.error(error);
+      if (error?.response?.status === 403) {
+        onOpen();
+      }
     } finally {
       router.refresh();
     }

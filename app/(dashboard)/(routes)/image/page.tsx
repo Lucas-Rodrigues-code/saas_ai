@@ -28,8 +28,10 @@ import {
 } from "@/components/ui/select";
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 export default function ImagePage() {
+  const { onOpen } = useProModal();
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
 
@@ -53,7 +55,9 @@ export default function ImagePage() {
 
       form.reset();
     } catch (error: any) {
-      console.error(error);
+      if (error?.response?.status === 403) {
+        onOpen();
+      }
     } finally {
       router.refresh();
     }
