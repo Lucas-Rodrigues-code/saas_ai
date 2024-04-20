@@ -29,6 +29,7 @@ import {
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 export default function ImagePage() {
   const { onOpen } = useProModal();
@@ -57,6 +58,8 @@ export default function ImagePage() {
     } catch (error: any) {
       if (error?.response?.status === 403) {
         onOpen();
+      } else {
+        toast.error("Houve um erro ao enviar a mensagem.");
       }
     } finally {
       router.refresh();
