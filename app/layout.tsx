@@ -10,7 +10,23 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Genius",
-  description: "AI platform ",
+  description: "A melhor ferramenta de IA",
+  openGraph: {
+    title: "Chatbot, Geração de imagem, Geração de música, Geração de código, Geração de video",
+    description:
+      "Conheça o melhor que a IA pode oferecer.",
+    url: "https://saas-ai-three-iota.vercel.app/",
+    siteName: "https://saas-ai-three-iota.vercel.app/",
+    images: [
+      {
+        url: "https://i.ibb.co/ZzLhHhj/ia.jpg",
+        width: 1200,
+        height: 600,
+      },
+    ],
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
