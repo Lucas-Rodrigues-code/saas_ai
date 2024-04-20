@@ -36,7 +36,7 @@ export function LandingHero() {
             variant={"pro"}
             className="md:text-lg p-4 md:p-6 rounded-full font-semibold"
           >
-            Comese usando gratuitamente
+            Comece usando gratuitamente
           </Button>
         </Link>
       </div>
