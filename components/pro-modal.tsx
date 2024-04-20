@@ -22,6 +22,8 @@ import { Badge } from "./ui/badge";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import axios from "axios";
+import { useState } from "react";
 
 const tools = [
   {
@@ -57,6 +59,19 @@ const tools = [
 ];
 export function ProModal() {
   const { isOpen, onClose } = useProModal();
+  const [loading, setLoading] = useState(false);
+
+  async function onSubscribe() {
+    try {
+      setLoading(true);
+      const response = await axios.get("/api/stripe");
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error(error, "STRIPE_CLIENT_ERROR");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -88,7 +103,7 @@ export function ProModal() {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="">
-          <Button size="lg" variant="pro" className="w-full">
+          <Button size="lg" variant="pro" className="w-full" onClick={onSubscribe}>
             Atualizar
             <Zap className="w-4 h-4 ml-2 fill-white" />
           </Button>

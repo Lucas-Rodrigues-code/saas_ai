@@ -45,10 +45,20 @@ export async function GET() {
               name: "Genius Pro",
               description: "Gerador de IA",
             },
+            unit_amount: 2000,
+            recurring: {
+              interval: "month",
+            },
           },
+          quantity: 1,
         },
       ],
+      metadata: {
+        userId,
+      },
     });
+
+    return new NextResponse(JSON.stringify({ url: stripeSession.url }));
   } catch (error) {
     console.log("[STRIPE_ERROR]", error);
     return new NextResponse("Internal Server Error", { status: 500 });

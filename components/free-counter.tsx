@@ -7,7 +7,13 @@ import { Button } from "./ui/button";
 import { Zap } from "lucide-react";
 import { useProModal } from "@/hooks/use-pro-modal";
 
-export function FreeCounter({ apiLimitCount }: { apiLimitCount: number }) {
+export function FreeCounter({
+  apiLimitCount = 0,
+  isPro = false,
+}: {
+  apiLimitCount: number;
+  isPro: boolean;
+}) {
   const { onOpen } = useProModal();
   const [mounted, setMounted] = useState(false);
 
@@ -18,6 +24,11 @@ export function FreeCounter({ apiLimitCount }: { apiLimitCount: number }) {
   if (!mounted) {
     return null;
   }
+
+  if (isPro) {
+    return null;
+  }
+  
   return (
     <div className="p-3">
       <Card className="bg-white/10 border-0">
