@@ -1,5 +1,13 @@
-import Image from "next/image";
+import { LandingContent } from "@/components/landing-content";
+import { LandingHero } from "@/components/landing-hero";
+import { LandingNavbar } from "@/components/landing-navbar";
 
 export default function LandingPage() {
-  return <div>Landing Page (unprotected)</div>;
+  return (
+    <div className="h-full">
+      <LandingNavbar />
+      <LandingHero />
+      <LandingContent />
+    </div>
+  );
 }
